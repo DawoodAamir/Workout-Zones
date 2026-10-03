@@ -29,10 +29,14 @@ jobs:
         env:
           PLATFORM: ${{ matrix.platform }}
         run: |
-          xcrun simctl list runtimes --json > /tmp/runtimes.json
-          if ! python3 -c 'import json,os; r=json.load(open("/tmp/runtimes.json"))["runtimes"]; raise SystemExit(not any(x.get("isAvailable") and x.get("version", "").startswith("27.") and os.environ["PLATFORM"] in x["identifier"] for x in r))'; then
-            xcodebuild -downloadPlatform "$PLATFORM" -buildVersion 27.0 -architectureVariant arm64
-          fi
+          platforms="$PLATFORM"
+          if [[ "$PLATFORM" == watchOS ]]; then platforms='iOS watchOS'; fi
+          for runtime_platform in $platforms; do
+            xcrun simctl list runtimes --json > /tmp/runtimes.json
+            if ! PLATFORM="$runtime_platform" python3 -c 'import json,os; r=json.load(open("/tmp/runtimes.json"))["runtimes"]; raise SystemExit(not any(x.get("isAvailable") and x.get("version", "").startswith("27.") and os.environ["PLATFORM"] in x["identifier"] for x in r))'; then
+              xcodebuild -downloadPlatform "$runtime_platform" -buildVersion 27.0 -architectureVariant arm64
+            fi
+          done
       - name: Native preview workflow
         run: bash Scripts/test-ui.sh '${{ matrix.platform }}'
       - name: Test evidence
@@ -43,4 +47,6 @@ jobs:
           path: |
             build/Screenshots-*
             build/*.xcresult
+            build/Simulator-*.png
+            build/Launch-*.log
           if-no-files-found: ignore
