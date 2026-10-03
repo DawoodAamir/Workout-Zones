@@ -33,3 +33,9 @@ bash Scripts/test-ui.sh watchOS
 See [verification](Docs/Verification.md), [privacy](PRIVACY.md), and [contributing](CONTRIBUTING.md). MIT licensed.
 
 References: [HealthKit workout zones](https://developer.apple.com/videos/play/wwdc2026/207/), [HealthKit](https://developer.apple.com/documentation/healthkit), and [designing for watchOS](https://developer.apple.com/design/human-interface-guidelines/designing-for-watchos).
+
+## Preview
+
+Native simulator screenshots using sample data; these do not represent a recorded Health workout.
+
+<img src="Docs/PhonePreview.png" width="300" alt="Sample run summary on iPhone"> <img src="Docs/WatchPreview.png" width="200" alt="Sample heart-rate zones on Apple Watch">
