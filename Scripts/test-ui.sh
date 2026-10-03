@@ -21,5 +21,5 @@ PY
 )}"
 xcrun simctl bootstatus "$simulator_id" -b
 result="build/$platform-$(date +%s).xcresult"
-xcodebuild -project 'Workout Zones.xcodeproj' -scheme "$scheme" -destination "platform=$device_platform,id=$simulator_id" -derivedDataPath build/DerivedData test -collect-test-diagnostics never -resultBundlePath "$result"
+xcodebuild -project 'Workout Zones.xcodeproj' -scheme "$scheme" -destination "platform=$device_platform,id=$simulator_id" -derivedDataPath build/DerivedData test -maximum-concurrent-test-simulator-destinations 1 -parallel-testing-enabled NO -collect-test-diagnostics never -resultBundlePath "$result"
 xcrun xcresulttool export attachments --path "$result" --output-path "build/Screenshots-$platform"

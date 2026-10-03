@@ -6,7 +6,8 @@ import XCTest
     let app = XCUIApplication()
     app.launch()
     #if os(watchOS)
-      let preview = app.buttons["preview"]
+      XCTAssertTrue(app.wait(for: .runningForeground, timeout: 30))
+    let preview = app.buttons["preview"]
       for _ in 0..<3 where !preview.isHittable { app.swipeUp() }
       XCTAssertTrue(preview.waitForExistence(timeout: 15), app.debugDescription)
       preview.tap()
